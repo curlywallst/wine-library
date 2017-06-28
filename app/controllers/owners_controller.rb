@@ -1,6 +1,6 @@
 class OwnersController < ApplicationController
 
-  get 'owners/cellar' do
+  get '/owners/cellar' do
     @bottles = current_user.bottles.all
     erb :'owners/cellar'
   end
@@ -45,8 +45,6 @@ class OwnersController < ApplicationController
     end
   end
 
-
-
   get '/owners/logout' do
     if logged_in?
       session.clear
@@ -61,7 +59,7 @@ class OwnersController < ApplicationController
     end
 
     def current_user
-      User.find(session[:owner_id])
+      Owner.find(session[:owner_id])
     end
   end
 

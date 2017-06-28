@@ -13,7 +13,7 @@
 ActiveRecord::Schema.define(version: 20170628134743) do
 
   create_table "bottles", force: :cascade do |t|
-    t.string "type"
+    t.string "wine_type"
     t.integer "price"
     t.integer "year"
     t.integer "owner_id"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20170628134743) do
 
   create_table "wineries", force: :cascade do |t|
     t.string "name"
+    t.string "location"
   end
 
   create_table "winery_bottles", force: :cascade do |t|

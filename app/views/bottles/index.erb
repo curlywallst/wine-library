@@ -1,0 +1,8 @@
+<h3>The Virtual Wine Cellar Bottle Universe</h3>
+
+<ul>
+  <%@bottles.each do |bottle|%>
+    <li><%=bottle.id%> - : <%=Winery.find(bottle.winery_id).name%> <%=bottle.wine_type%>  <%=bottle.year%> - <%=bottle.price%></li>
+  <%end%>
+</ul>
+<br />

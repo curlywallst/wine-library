@@ -1,0 +1,12 @@
+<h3>Your Virtual Wine Cellar</h3>
+
+<ul>
+  <%@bottles.each do |bottle|%>
+    <li><%=bottle.id%> - <%=bottle.winery.name%>: <%=bottle.wine_type%>  <%=bottle.year%> - <%=bottle.price%></li>
+    <%end%>
+</ul>
+<br />
+
+<a href="/owners/logout">Log out</a><br />
+<a href="/bottles/new">Add New Bottle</a><br />
+<a href="/wineries/new">Add New Winery</a><br />
