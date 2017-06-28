@@ -1,0 +1,16 @@
+<h1>Update Bottle</h1>
+
+<form action="/bottles/<%=@bottle.id%>" method="POST">
+  <input type="hidden" name="_method" value="PATCH">
+
+  <label>Type:</label>
+  <input type="text" name="wine_type" id="wine_type" value="<%=@bottle.wine_type%>"><br />
+  <label>Winery:</label>
+  <input type="text" name="winery" id="winery" value="<%=Winery.find(@bottle.winery_id).name%>"><br />
+  <label>Year:</label>
+  <input type="text" name="year" id="year" value="<%=@bottle.year%>"><br />
+  <label>Price:</label>
+  <input type="text" name="price" id="price" value="<%=@bottle.price%>"><br />
+
+  <input type="submit" value="Edit Bottle">
+</form>

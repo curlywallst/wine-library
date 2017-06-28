@@ -2,12 +2,13 @@
 
 <ul>
   <%@bottles.each do |bottle|%>
-    <li><%=bottle.id%> - <%=bottle.winery.name%>: <%=bottle.wine_type%>  <%=bottle.year%> - $<%=sprintf('%.2f', bottle.price)</li>
+    <li><%=bottle.id%> - <%=Winery.find(bottle.winery_id).name%>: <%=bottle.wine_type%>  <%=bottle.year%> - $<%=sprintf('%.2f', bottle.price)%></li>
     <%end%>
 </ul>
 <br />
 
 
 <a href="/bottles/new">Add New Bottle</a><br />
-<a href="/wineries/new">Add New Winery</a><br />
+<a href="/bottles">See All Bottles in Wine Cellar Universe</a><br />
+<a href="/wineries">See All Wineries in Wine Cellar Universe</a><br />
 <a href="/owners/logout">Log out</a><br />
