@@ -1,0 +1,8 @@
+<h3>The Virtual Wine Cellar Wineries Universe</h3>
+
+<ul>
+  <%@wineries.each do |winery|%>
+    <li><%=winery.id%> - : <%=winery.name%></li>
+  <%end%>
+</ul>
+<br />

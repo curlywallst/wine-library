@@ -1,5 +1,9 @@
 class OwnersController < ApplicationController
 
+  get '/owners' do
+    erb :'owners/index'
+  end
+
   get '/owners/cellar' do
     @bottles = current_user.bottles.all
     erb :'owners/cellar'
@@ -35,8 +39,8 @@ class OwnersController < ApplicationController
     end
   end
 
-  post 'owners/login' do
-    @owner = User.find_by(:name => params[:name])
+  post '/owners/login' do
+    @owner = Owner.find_by(:name => params[:name])
     if !!@owner && @owner.authenticate(params[:password])
       session[:owner_id] = @owner.id
       redirect "owners/cellar"
@@ -49,7 +53,7 @@ class OwnersController < ApplicationController
     if logged_in?
       session.clear
     end
-    redirect "/owners/login"
+    redirect "/"
   end
 
   helpers do

@@ -1,3 +1,6 @@
 <h3>Your Bottle</h3>
 
-<p><%=Winery.find(@bottle.winery_id).name%>: <%=@bottle.wine_type%>  <%=@bottle.year%> - $<%=@bottle.price%></p>
+<p><%=Winery.find(@bottle.winery_id).name%>: <%=@bottle.wine_type%>  <%=@bottle.year%> - $<%=sprintf('%.2f', bottle.price)</p>
+
+
+<a href="/owners/cellar">Return to your Cellar</a><br />
