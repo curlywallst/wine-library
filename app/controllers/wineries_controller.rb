@@ -5,6 +5,12 @@ class WineriesController < ApplicationController
     erb :'wineries/index'
   end
 
+  get '/wineries/:id/all' do
+    winery = Winery.find(params[:id])
+    @bottles = winery.bottles
+    erb :'/wineries/all'
+  end
+
   get '/wineries/:id/edit' do
     @winery = Winery.find(params[:id])
     erb :'wineries/edit'

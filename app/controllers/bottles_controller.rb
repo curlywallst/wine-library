@@ -14,6 +14,7 @@ class BottlesController < ApplicationController
     winery = Winery.find_or_create_by(:name => params[:winery])
     @bottle.winery_id = winery.id
     @bottle.owner_id = current_user.id
+    winery.bottles << @bottle
     @bottle.save
     redirect "/bottles/#{@bottle.id}"
   end

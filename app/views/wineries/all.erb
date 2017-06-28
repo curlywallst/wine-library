@@ -1,0 +1,11 @@
+<h3>The Virtual Wine Cellar Bottle Universe</h3>
+<h4>All Bottles from <%=Winery.find(@bottles.first.winery_id).name%>: </h4>
+
+<ul>
+  <%@bottles.each do |bottle|%>
+    <li><%=bottle.id%> - <%=bottle.wine_type%>  <%=bottle.year%> - $<%=sprintf('%.2f', bottle.price)%></li>
+  <%end%>
+</ul>
+<br />
+
+<a href="/owners/cellar">Return to your Cellar</a><br />

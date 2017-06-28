@@ -9,6 +9,24 @@ class OwnersController < ApplicationController
     erb :'owners/cellar'
   end
 
+  get '/owners/sort' do
+    bottles = current_user.bottles.all
+    @bottle_types = bottles.uniq{|x| x.wine_type}
+    @bottle_wineries = bottles.uniq{|x| x.winery_id}
+    erb :'owners/sort'
+  end
+
+  post '/owners/by' do
+    if params[:winery_id]
+      @bottles = current_user.bottles.all.select {|x| x.winery_id == params[:winery_id].to_i}
+    # binding.pry
+      erb :'bottles/index'
+    elsif params[:wine_type]
+      @bottles = current_user.bottles.all.select {|x| x.wine_type == params[:wine_type]}
+      erb :'bottles/index'
+    end
+  end
+
   get '/owners/signup' do
     if !logged_in?
       erb :'owners/create_owner'
