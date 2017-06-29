@@ -3,11 +3,22 @@
 <form action="/bottles" method="POST">
   <br></br>
 
-  <label>Type:</label><input type="text" name="wine_type"></br>
-  <label>Winery:</label><input type="text" name="winery"></br>
+  <label>Choose a wine type:</label><br />
+  <%@bottle_types.each do |bottle|%>
+    <input type="radio" name="type" value="<%=bottle.wine_type%>" id="wine_type"><%=bottle.wine_type%></input><br />
+  <%end%>
+  <label>Or add a new wine type:</label><input type="text" name="wine_type"></br>
+  <br></br>
+
+  <label>Choose a winery:</label><br />
+  <%@bottle_wineries.each do |bottle|%>
+    <input type="radio" name="winery_name" value="<%=bottle.winery.name%>" id="winery_name"><%=bottle.winery.name%></input><br />
+  <%end%>
+  <label>Or add a New Winery:</label><input type="text" name="winery"></br>
+  <br></br>
+
   <label>Year:</label><input type="integer" name="year"></br>
   <label>Price:</label><input type="integer" name="price"></br>
-
   <br></br>
 
   <input type="submit" value="Submit">
