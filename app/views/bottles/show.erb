@@ -1,4 +1,4 @@
-<h3>Your New Bottle</h3>
+<h3>Your Bottle</h3>
 
 <p><%=Winery.find(@bottle.winery_id).name%>: <%=@bottle.wine_type%>  <%=@bottle.year%> - $<%=sprintf('%.2f', @bottle.price)%></p>
 
@@ -8,6 +8,9 @@
   <input type="submit" value="Delete Bottle">
 </form>
 
+
+
 <a href="<%=@bottle.id%>/edit">Edit Bottle</a><br />
+<a href="/wineries/<%="#{@bottle.winery_id}"%>/edit">Edit Winery</a><br />
 
 <a href="/owners/cellar">Return to your Cellar</a><br />

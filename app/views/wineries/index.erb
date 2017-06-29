@@ -2,9 +2,10 @@
 
 <ul>
   <%@wineries.each do |winery|%>
-    <li><%=winery.id%> - : <%=winery.name%></li>
+    <li><a href="/wineries/<%="#{winery.id}"%>"><%=winery.name%></a></li>
   <%end%>
 </ul>
 <br />
+
 
 <a href="/owners/cellar">Return to your Cellar</a><br />

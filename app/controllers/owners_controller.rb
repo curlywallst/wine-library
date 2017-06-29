@@ -19,7 +19,6 @@ class OwnersController < ApplicationController
   post '/owners/by' do
     if params[:winery_id]
       @bottles = current_user.bottles.all.select {|x| x.winery_id == params[:winery_id].to_i}
-    # binding.pry
       erb :'bottles/index'
     elsif params[:wine_type]
       @bottles = current_user.bottles.all.select {|x| x.wine_type == params[:wine_type]}

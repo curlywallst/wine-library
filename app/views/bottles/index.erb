@@ -2,7 +2,7 @@
 
 <ul>
   <%@bottles.each do |bottle|%>
-    <li><%=bottle.id%> - <%=Winery.find(bottle.winery_id).name%>: <%=bottle.wine_type%>  <%=bottle.year%> - $<%=sprintf('%.2f', bottle.price)%></li>
+    <li><a href="/bottles/<%="#{bottle.id}"%>"><%=Winery.find(bottle.winery_id).name%>: <%=bottle.wine_type%>  <%=bottle.year%> - $<%=sprintf('%.2f', bottle.price)%></a></li>
   <%end%>
 </ul>
 <br />
