@@ -13,26 +13,9 @@ class BottlesController < ApplicationController
   end
 
   post '/bottles' do
-
-    if !!params[:type]
-      wine_type = params[:type]
-    elsif !!params[:wine_type] && params[:wine_type] != ""
-      wine_type = params[:wine_type]
-    else
-      raise ArgumentError.new('Must choose existing wine type or enter new wine type')
-    end
-
-    if !!params[:winery_name]
-      winery_name = params[:winery_name]
-    elsif !!params[:winery] && params[:winery] != ""
-      winery_name = params[:winery]
-    else
-      raise ArgumentError.new('Must choose existing winery or enter new winery')
-    end
-
     check_validity
-    @bottle = Bottle.create(:wine_type => wine_type, :price => params[:price], :year => params[:year])
-    winery = Winery.find_or_create_by(:name => winery_name)
+    @bottle = Bottle.create(:wine_type => @wine_type, :price => params[:price], :year => params[:year])
+    winery = Winery.find_or_create_by(:name =>@winery_name)
     @bottle.winery_id = winery.id
     @bottle.owner_id = current_user.id
     winery.bottles << @bottle
@@ -54,22 +37,7 @@ class BottlesController < ApplicationController
 
   patch '/bottles/:id'do
     @bottle = Bottle.find(params[:id])
-    if !!params[:wine_type] && params[:wine_type] != ""
-      wine_type = params[:wine_type]
-    elsif !!params[:type]
-        wine_type = params[:type]
-    else
-      raise ArgumentError.new('Must choose existing wine type or enter new wine type')
-    end
-
-    if !!params[:winery] && params[:winery] != ""
-      winery_name = params[:winery]
-    elsif !!params[:winery_name]
-      winery_name = params[:winery_name]
-    else
-      raise ArgumentError.new('Must choose existing winery or enter new winery')
-    end
-
+    check_validity
     @bottle.wine_type = wine_type
     @bottle.year = params[:year]
     @bottle.price = params[:price]
@@ -97,6 +65,23 @@ class BottlesController < ApplicationController
   helpers do
 
     def check_validity
+
+      if !!params[:type]
+        @wine_type = params[:type]
+      elsif !!params[:wine_type] && params[:wine_type] != ""
+        @wine_type = params[:wine_type]
+      else
+        raise ArgumentError.new('Must choose existing wine type or enter new wine type')
+      end
+
+      if !!params[:winery_name]
+        @winery_name = params[:winery_name]
+      elsif !!params[:winery] && params[:winery] != ""
+        @winery_name = params[:winery]
+      else
+        raise ArgumentError.new('Must choose existing winery or enter new winery')
+      end
+
       if !(/^(19|20)[0-9][0-9]/).match?(params[:year])
         raise ArgumentError.new('Invalid Year - must be 4 digits starting with 19 or 20')
       end
