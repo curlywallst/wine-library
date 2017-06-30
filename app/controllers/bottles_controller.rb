@@ -35,13 +35,14 @@ class BottlesController < ApplicationController
     end
   end
 
-  patch '/bottles/:id'do
+  patch '/bottles/:id' do
+    binding.pry
     @bottle = Bottle.find(params[:id])
     check_validity
-    @bottle.wine_type = wine_type
+    @bottle.wine_type = @wine_type
     @bottle.year = params[:year]
     @bottle.price = params[:price]
-    winery = Winery.find_or_create_by(:name => winery_name)
+    winery = Winery.find_or_create_by(:name => @winery_name)
     @bottle.winery_id = winery.id
     @bottle.save
     redirect "/bottles/#{@bottle.id}"
