@@ -36,7 +36,6 @@ class BottlesController < ApplicationController
   end
 
   patch '/bottles/:id' do
-    binding.pry
     @bottle = Bottle.find(params[:id])
     check_validity
     @bottle.wine_type = @wine_type
