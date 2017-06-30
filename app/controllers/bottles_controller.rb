@@ -13,17 +13,24 @@ class BottlesController < ApplicationController
   end
 
   post '/bottles' do
+
     if !!params[:type]
       wine_type = params[:type]
-    else
+    elsif !!params[:wine_type] && params[:wine_type] != ""
       wine_type = params[:wine_type]
+    else
+      raise ArgumentError.new('Must choose existing wine type or enter new wine type')
     end
 
     if !!params[:winery_name]
       winery_name = params[:winery_name]
-    else
+    elsif !!params[:winery] && params[:winery] != ""
       winery_name = params[:winery]
+    else
+      raise ArgumentError.new('Must choose existing winery or enter new winery')
     end
+
+    check_validity
     @bottle = Bottle.create(:wine_type => wine_type, :price => params[:price], :year => params[:year])
     winery = Winery.find_or_create_by(:name => winery_name)
     @bottle.winery_id = winery.id
@@ -36,6 +43,9 @@ class BottlesController < ApplicationController
   get '/bottles/:id/edit' do
     @bottle = Bottle.find(params[:id])
     if @bottle.owner_id == current_user.id
+      bottles = Bottle.all
+      @bottle_types = bottles.uniq{|x| x.wine_type}
+      @bottle_wineries = bottles.uniq{|x| x.winery_id}
       erb :'bottles/edit'
     else
       erb :index
@@ -44,11 +54,27 @@ class BottlesController < ApplicationController
 
   patch '/bottles/:id'do
     @bottle = Bottle.find(params[:id])
-    binding.pry
-    @bottle.wine_type = params[:wine_type]
+    if !!params[:wine_type] && params[:wine_type] != ""
+      wine_type = params[:wine_type]
+    elsif !!params[:type]
+        wine_type = params[:type]
+    else
+      raise ArgumentError.new('Must choose existing wine type or enter new wine type')
+    end
+
+    if !!params[:winery] && params[:winery] != ""
+      winery_name = params[:winery]
+    elsif !!params[:winery_name]
+      winery_name = params[:winery_name]
+    else
+      raise ArgumentError.new('Must choose existing winery or enter new winery')
+    end
+
+    @bottle.wine_type = wine_type
     @bottle.year = params[:year]
     @bottle.price = params[:price]
-    @bottle.winery_id = params[:winery_id]
+    winery = Winery.find_or_create_by(:name => winery_name)
+    @bottle.winery_id = winery.id
     @bottle.save
     redirect "/bottles/#{@bottle.id}"
   end
@@ -69,6 +95,18 @@ class BottlesController < ApplicationController
   end
 
   helpers do
+
+    def check_validity
+      if !(/^(19|20)[0-9][0-9]/).match?(params[:year])
+        raise ArgumentError.new('Invalid Year - must be 4 digits starting with 19 or 20')
+      end
+
+      if !((/^\d+/).match?(params[:price]) || (/^\d+(\.\d{2})/).match?(params[:price]))
+        raise ArgumentError.new('Invalid price - must be all digits starting with either no decimals or 2 decimals')
+      elsif !(params[:price]==(/^\d+/).match(params[:price]).string || params[:price] == (/^\d+(\.\d{2})/).match(params[:price]).string)
+        raise ArgumentError.new('Invalid price - must be all digits starting with either no decimals or 2 decimals')
+      end
+    end
 
     def logged_in?
       !!session[:owner_id]

@@ -5,8 +5,12 @@ class OwnersController < ApplicationController
   end
 
   get '/owners/cellar' do
-    @bottles = current_user.bottles.all
-    erb :'owners/cellar'
+    if logged_in?
+      @bottles = current_user.bottles.all
+      erb :'owners/cellar'
+    else
+      erb :index
+    end
   end
 
   get '/owners/sort' do

@@ -3,10 +3,21 @@
 <form action="/bottles/<%=@bottle.id%>" method="POST">
   <input type="hidden" name="_method" value="PATCH">
 
-  <label>Type:</label>
-  <input type="text" name="wine_type" id="wine_type" value="<%=@bottle.wine_type%>"><br />
-  <label>Winery:</label>
-  <input type="text" name="winery" id="winery" value="<%=Winery.find(@bottle.winery_id).name%>"><br />
+
+  <label>Choose a wine type:</label><br />
+  <%@bottle_types.each do |bottle|%>
+    <input type="radio" name="type" value="<%=bottle.wine_type%>" id="wine_type"<%='checked' if @bottle.wine_type == bottle.wine_type %>><%=bottle.wine_type%></input><br />
+  <%end%>
+  <label>Or add a new wine type:</label><input type="text" name="wine_type"></br>
+  <br></br>
+
+  <label>Choose a winery:</label><br />
+  <%@bottle_wineries.each do |bottle|%>
+    <input type="radio" name="winery_name" value="<%=bottle.winery.name%>" id="winery_name"<%='checked' if @bottle.winery_id == bottle.winery_id %>><%=bottle.winery.name%></input><br />
+  <%end%>
+  <label>Or add a New Winery:</label><input type="text" name="winery"></br>
+  <br></br>
+
   <label>Year:</label>
   <input type="text" name="year" id="year" value="<%=@bottle.year%>"><br />
   <label>Price:</label>
