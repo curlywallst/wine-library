@@ -6,24 +6,25 @@
 
   <label>Choose a wine type:</label><br />
   <%@bottle_types.each do |bottle|%>
-    <input type="radio" name="type" value="<%=bottle.wine_type%>" id="wine_type"<%='checked' if @bottle.wine_type == bottle.wine_type %>><%=bottle.wine_type%></input><br />
+    <input type="radio" name="type" value="<%=bottle.wine_type%>" id="wine_type" <%='checked' if @bottle.wine_type == bottle.wine_type %>><%=bottle.wine_type%><br />
   <%end%>
-  <label>Or add a new wine type:</label><input type="text" name="wine_type"></br>
+  <label>Or add a new wine type:</label><input type="text" name="wine_type">
   <br></br>
 
   <label>Choose a winery:</label><br />
-  <%@bottle_wineries.each do |bottle|%>
-    <input type="radio" name="winery_name" value="<%=bottle.winery.name%>" id="winery_name"<%='checked' if @bottle.winery_id == bottle.winery_id %>><%=bottle.winery.name%></input><br />
+  <%@wineries.each do |winery|%>
+    <input type="radio" name="winery_name" value="<%=winery.name%>" id="winery_name"<%='checked' if @bottle.winery_id == winery.id %>><%=winery.name%><br />
   <%end%>
-  <label>Or add a New Winery:</label><input type="text" name="winery"></br>
+  <label>Or add a New Winery:</label><input type="text" name="winery">
   <br></br>
 
   <label>Year:</label>
   <input type="text" name="year" id="year" value="<%=@bottle.year%>"><br />
   <label>Price:</label>
   <input type="text" name="price" id="price" value="<%=@bottle.price%>"><br />
-
-  <input type="submit" value="Edit Bottle">
+  <br>
+  <button>Submit</button>
 </form>
-<br><br />
-<a href="/owners/cellar">Return to your Cellar</a><br />
+
+<br>
+<a href="/cellar"><button>Return to your Cellar</button></a><br />

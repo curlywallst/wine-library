@@ -15,3 +15,7 @@ end
 task :console do
   Pry.start
 end
+
+task :hello do
+  puts "hello Michelle"
+end

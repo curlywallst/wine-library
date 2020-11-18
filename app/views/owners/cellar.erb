@@ -1,4 +1,4 @@
-<h3>Your Virtual Wine Cellar</h3>
+<h3><%= current_user.name.capitalize  %>'s Virtual Wine Cellar</h3>
 
 <ul>
   <%@bottles.each do |bottle|%>
@@ -8,8 +8,9 @@
 <br />
 
 
-<a href="/bottles/new">Add New Bottle</a><br />
-<a href="/owners/sort">See All Bottles in Your Cellar From a Single Winery or of a Single Wine Type</a><br />
-<a href="/bottles">See All Bottles in Wine Cellar Universe</a><br />
-<a href="/wineries">See All Wineries in Wine Cellar Universe</a><br />
-<a href="/owners/logout">Log out</a><br />
+<a href="/bottles/new"><button>Add Bottle</button></a><br />
+<br>
+<a href="/owners/sort"><button>Filter Your Bottles</button></a>
+<a href="/bottles"><button>All Bottles of All Owners</button></a>
+<a href="/wineries"><button>All Wineries of All Owners</button></a>
+<a href="/logout"><button>Logout</button></a>

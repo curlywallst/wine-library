@@ -3,13 +3,13 @@
 <p><%=Winery.find(@bottle.winery_id).name%>: <%=@bottle.wine_type%>  <%=@bottle.year%> - $<%=sprintf('%.2f', @bottle.price)%></p>
 
 
-<form method="post" action="/bottles/<%= @bottle.id %>/delete">
+<form method="post" action="/bottles/<%= @bottle.id %>">
   <input id="hidden" type="hidden" name="_method" value="delete"><br />
-  <input type="submit" value="Delete Bottle">
+  <button>Delete</button>
 </form>
 
+<br>
 
+<a href="<%=@bottle.id%>/edit"><button>Edit Bottle</button></a>
 
-<a href="<%=@bottle.id%>/edit">Edit Bottle</a><br />
-
-<a href="/owners/cellar">Return to your Cellar</a><br />
+<a href="/cellar"><button>Return to your Cellar</button></a><br />

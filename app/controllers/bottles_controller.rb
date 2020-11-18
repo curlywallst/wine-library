@@ -1,34 +1,35 @@
 class BottlesController < ApplicationController
 
   get '/bottles' do
+    redirect_if_not_logged_in
     @bottles = Bottle.all
     erb :'bottles/index'
   end
 
   get '/bottles/new' do
-    bottles = Bottle.all
-    @bottle_types = bottles.uniq{|x| x.wine_type}
-    @bottle_wineries = bottles.uniq{|x| x.winery_id}
+    redirect_if_not_logged_in
+    @bottle_types = Bottle.all.uniq{|x| x.wine_type}
+    @wineries = Winery.all
     erb :'bottles/new'
   end
 
   post '/bottles' do
     check_validity
-    @bottle = Bottle.create(:wine_type => @wine_type, :price => params[:price], :year => params[:year])
+    @bottle = current_user.bottles.create(:wine_type => @wine_type, :price => params[:price], :year => params[:year])
     winery = Winery.find_or_create_by(:name =>@winery_name)
     @bottle.winery_id = winery.id
-    @bottle.owner_id = current_user.id
     winery.bottles << @bottle
     @bottle.save
     redirect "/bottles/#{@bottle.id}"
   end
 
   get '/bottles/:id/edit' do
-    @bottle = Bottle.find(params[:id])
-    if @bottle.owner_id == current_user.id
+    redirect_if_not_logged_in
+    @bottle = current_user.bottles.find(params[:id])
+    if @bottle
       bottles = Bottle.all
       @bottle_types = bottles.uniq{|x| x.wine_type}
-      @bottle_wineries = bottles.uniq{|x| x.winery_id}
+      @wineries = Winery.all
       erb :'bottles/edit'
     else
       erb :index
@@ -36,7 +37,7 @@ class BottlesController < ApplicationController
   end
 
   patch '/bottles/:id' do
-    @bottle = Bottle.find(params[:id])
+    @bottle = current_user.bottles.find(params[:id])
     check_validity
     @bottle.wine_type = @wine_type
     @bottle.year = params[:year]
@@ -48,15 +49,16 @@ class BottlesController < ApplicationController
   end
 
   get '/bottles/:id'do
-    @bottle = Bottle.find(params[:id])
+    @bottle = current_user.bottles.find(params[:id])
     erb :'bottles/show'
   end
 
-  delete '/bottles/:id/delete' do
-    @bottle = Bottle.find(params[:id])
-    if @bottle.owner_id == current_user.id
+  delete '/bottles/:id' do
+    redirect_if_not_logged_in
+    @bottle = current_user.bottles.find(params[:id])
+    if @bottle
       @bottle.delete
-      redirect "/bottles"
+      redirect "/cellar"
     else
       erb :'index'
     end
@@ -91,14 +93,6 @@ class BottlesController < ApplicationController
       elsif !(params[:price]==(/^\d+/).match(params[:price]).string || params[:price] == (/^\d+(\.\d{2})/).match(params[:price]).string)
         raise ArgumentError.new('Invalid price - must be all digits starting with either no decimals or 2 decimals')
       end
-    end
-
-    def logged_in?
-      !!session[:owner_id]
-    end
-
-    def current_user
-      Owner.find(session[:owner_id])
     end
   end
 

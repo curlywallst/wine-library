@@ -1,10 +1,10 @@
 <h3>Virtual Wine Cellar Bottles</h3>
 
 <ul>
-  <%@bottles.each do |bottle|%>
-    <li><a href="/bottles/<%="#{bottle.id}"%>"><%=Winery.find(bottle.winery_id).name%>: <%=bottle.wine_type%>  <%=bottle.year%> - $<%=sprintf('%.2f', bottle.price)%></a></li>
+  <% @bottles.each do |bottle|%>
+    <li><a href="/bottles/<%="#{bottle.id}"%>"><%= bottle.winery.name%>: <%=bottle.wine_type%>  <%=bottle.year%> - $<%=sprintf('%.2f', bottle.price)%></a></li>
   <%end%>
 </ul>
 <br />
 
-<a href="/owners/cellar">Return to your Cellar</a><br />
+<a href="/cellar"><button>Back to Your Cellar</button></a><br />

@@ -1,23 +1,19 @@
 <form action="/owners/by" method="POST">
 
-<label>Choose a wine type in your collection:</label>
-<br></br>
-<%@bottle_types.each do |bottle|%>
-  <input type="radio" name="wine_type" value="<%=bottle.wine_type%>" id="wine_type"><%=bottle.wine_type%></input><br />
-<%end%>
-<br></br>
+  <label>Choose a wine type in your collection:</label>
+  <br>
+  <%@bottle_types.each do |bottle|%>
+    <input type="radio" name="wine_type" value="<%=bottle.wine_type%>" id="wine_type"><%=bottle.wine_type%><br />
+  <%end%>
+  <br>
 
-<label>Or choose a winery in your collection:</label>
-<br></br>
-<%@bottle_wineries.each do |bottle|%>
-  <input type="radio" name="winery_id" value="<%=bottle.winery.id%>" id="winery_id"><%=bottle.winery.name%></input><br />
-<%end%>
-<br></br>
+  <label>Or choose a winery in your collection:</label>
+  <br>
+  <%@bottle_wineries.each do |bottle|%>
+    <input type="radio" name="winery_id" value="<%=bottle.winery.id%>" id="winery_id"><%=bottle.winery.name%><br />
+  <%end%>
+  <br>
 
-<input type="submit" value="Submit"/>
-
-
-
-
+  <input type="submit" value="Submit"/>
 
 </form>

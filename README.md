@@ -1,6 +1,7 @@
 # wine-library
 Flatiron school MVC Sinatra Active Record Project
 
+
 Virtual Wine Cellar
 
 This is a MVC Sinatra application that allows users to create accounts and add information about each bottle in their virtual wine cellar.  The Models included are:

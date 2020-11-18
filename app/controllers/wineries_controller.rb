@@ -5,7 +5,7 @@ class WineriesController < ApplicationController
     erb :'wineries/index'
   end
 
-  get '/wineries/:id/all' do
+  get '/wineries/:id/bottles' do
     winery = Winery.find(params[:id])
     @bottles = winery.bottles
     erb :'/bottles/index'

@@ -4,19 +4,15 @@ class OwnersController < ApplicationController
     erb :'owners/index'
   end
 
-  get '/owners/cellar' do
-    if logged_in?
-      @bottles = current_user.bottles.all
-      erb :'owners/cellar'
-    else
-      erb :index
-    end
+  get '/cellar' do
+    redirect_if_not_logged_in
+    @bottles = current_user.bottles
+    erb :'owners/cellar'
   end
 
   get '/owners/sort' do
-    bottles = current_user.bottles.all
-    @bottle_types = bottles.uniq{|x| x.wine_type}
-    @bottle_wineries = bottles.uniq{|x| x.winery_id}
+    @bottle_types = current_user.bottles.uniq{|x| x.wine_type}
+    @bottle_wineries = current_user.bottles.uniq{|x| x.winery_id}
     erb :'owners/sort'
   end
 
@@ -30,11 +26,11 @@ class OwnersController < ApplicationController
     end
   end
 
-  get '/owners/signup' do
+  get '/signup' do
     if !logged_in?
-      erb :'owners/create_owner'
+      erb :'owners/new'
     else
-      redirect "/owners/cellar"
+      redirect "/cellar"
     end
   end
 
@@ -43,49 +39,12 @@ class OwnersController < ApplicationController
       @owner=Owner.new(:name => params[:name], :password => params[:password])
       if @owner.save
         session[:owner_id] = @owner.id
-        redirect "owners/cellar"
+        redirect "/cellar"
       else
         redirect "/owners/signup"
       end
     else
-      redirect "/owners/signup"
+      redirect "/signup"
     end
   end
-
-  get '/owners/login' do
-    if !logged_in?
-      erb :'owners/login'
-    else
-      redirect "owners/cellar"
-    end
-  end
-
-  post '/owners/login' do
-    @owner = Owner.find_by(:name => params[:name])
-    if !!@owner && @owner.authenticate(params[:password])
-      session[:owner_id] = @owner.id
-      redirect "owners/cellar"
-    else
-      redirect "owners/login"
-    end
-  end
-
-  get '/owners/logout' do
-    if logged_in?
-      session.clear
-    end
-    redirect "/"
-  end
-
-  helpers do
-
-    def logged_in?
-      !!session[:owner_id]
-    end
-
-    def current_user
-      Owner.find(session[:owner_id])
-    end
-  end
-
 end
